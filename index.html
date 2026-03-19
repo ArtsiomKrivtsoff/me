@@ -132,14 +132,21 @@ header {
   font-weight: 300;
 }
 
+.header-nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
 .header-nav {
   max-width: 1060px;
   margin: 0 auto;
   padding: 0 40px;
   display: flex;
   gap: 0;
-  margin-top: 24px;
-  border-top: 1px solid var(--border);
   overflow-x: auto;
 }
 
@@ -158,6 +165,41 @@ header {
 }
 
 .header-nav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.burger-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px 20px;
+  font-size: 22px;
+  color: var(--text);
+  margin-left: auto;
+}
+
+.burger-menu {
+  display: none;
+  flex-direction: column;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 8px 0;
+}
+
+.burger-menu a {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  padding: 12px 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.burger-menu a:last-child { border-bottom: none; }
+.burger-menu a:hover { color: var(--accent); background: var(--accent-pale); }
+.burger-menu.open { display: flex; }
 
 /* ── LAYOUT ── */
 .page {
@@ -329,7 +371,7 @@ a:hover { text-decoration: underline; }
 .sources a { color: var(--link); font-size: 13px; }
 
 /* ── SIDEBAR ── */
-.sidebar { position: sticky; top: 24px; }
+.sidebar { position: static; }
 
 .infobox {
   background: var(--white);
@@ -487,7 +529,8 @@ footer span { color: var(--accent-line); }
 @media (max-width: 800px) {
   .header-inner { flex-direction: column; align-items: flex-start; padding: 24px 20px 0; gap: 12px; }
   .header-right { text-align: left; }
-  .header-nav { padding: 0 20px; }
+  .header-nav { display: none; }
+  .burger-btn { display: block; }
   .page { grid-template-columns: 1fr; padding: 28px 20px; gap: 32px; }
   .sidebar { position: static; }
 }
@@ -508,15 +551,27 @@ footer span { color: var(--accent-line); }
       <div style="font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:0.06em;">страница создана с помощью ИИ</div>
     </div>
   </div>
-  <nav class="header-nav">
-    <a href="#opyt">Опыт</a>
-    <a href="#poziciya">Позиция</a>
-    <a href="#consulting">Консалтинг</a>
-    <a href="#infra">Инфраструктура</a>
-    <a href="#media-exp">Медиа</a>
-    <a href="#events">Выставки</a>
-    <a href="#proekty">Проекты</a>
-  </nav>
+  <div class="header-nav-wrap">
+    <nav class="header-nav" id="mainNav">
+      <a href="#opyt">Опыт</a>
+      <a href="#poziciya">Позиция</a>
+      <a href="#consulting">Консалтинг</a>
+      <a href="#infra">Инфраструктура</a>
+      <a href="#media-exp">Медиа</a>
+      <a href="#events">Выставки</a>
+      <a href="#proekty">Проекты</a>
+    </nav>
+    <button class="burger-btn" id="burgerBtn" onclick="toggleMenu()">☰</button>
+    <div class="burger-menu" id="burgerMenu">
+      <a href="#opyt" onclick="closeMenu()">Опыт</a>
+      <a href="#poziciya" onclick="closeMenu()">Позиция</a>
+      <a href="#consulting" onclick="closeMenu()">Консалтинг</a>
+      <a href="#infra" onclick="closeMenu()">Инфраструктура</a>
+      <a href="#media-exp" onclick="closeMenu()">Медиа</a>
+      <a href="#events" onclick="closeMenu()">Выставки</a>
+      <a href="#proekty" onclick="closeMenu()">Проекты</a>
+    </div>
+  </div>
 </header>
 
 <div class="page">
@@ -738,5 +793,19 @@ footer span { color: var(--accent-line); }
   <span>Артём Кривцов</span> · Беларусь · EV Expert · &copy; 2025
 </footer>
 
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('burgerMenu');
+  const btn = document.getElementById('burgerBtn');
+  menu.classList.toggle('open');
+  btn.textContent = menu.classList.contains('open') ? '✕' : '☰';
+}
+function closeMenu() {
+  const menu = document.getElementById('burgerMenu');
+  const btn = document.getElementById('burgerBtn');
+  menu.classList.remove('open');
+  btn.textContent = '☰';
+}
+</script>
 </body>
 </html>
